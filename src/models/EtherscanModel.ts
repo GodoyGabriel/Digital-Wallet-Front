@@ -1,4 +1,4 @@
-import { action } from "../type/EtherBalanceTypes";
+import { action } from "../types/EtherBalanceTypes";
 
 export default class EtherscanModel {
   apikey: string;

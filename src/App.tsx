@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import Home from './pages/Home';
+import './App.css';
 
 export const App = () => {
   return (
-    <div className="App">
+    <div className="bg-dark">
       <Home/>
     </div>
   );
