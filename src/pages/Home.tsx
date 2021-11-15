@@ -4,6 +4,7 @@ import CardExchange from "../components/cardExchange/CardExchange";
 import CardBalance from "../components/cardBalance/CardBalance";
 import Header from "../components/header/Header";
 import { tabType } from "../types/Types";
+import logo from "../assets/img/eth-logo.png";
 
 export default function Home() {
   const tabs: tabType[] = [
@@ -13,11 +14,15 @@ export default function Home() {
   ];
   return (
     <div className="bg-dark text-white" style={{ height: "100vh" }}>
-      <Header title="Ethereum Wallet" />
+      <Header title="Ethereum Wallet" logo={logo} />
       <main className="container p-4">
         <div className="row">
           <div className="col-md-6">
-            <CardWithTabs title="Addresses" tabs={tabs} defaultActiveTab="all"/>
+            <CardWithTabs
+              title="Addresses"
+              tabs={tabs}
+              defaultActiveTab="all"
+            />
           </div>
           <div className="col-md-3">
             <CardExchange />
