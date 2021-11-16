@@ -1,6 +1,6 @@
 export interface AccountBalance {
   account: string;
-  balance: string;
+  balance: string | number;
 }
 
 export interface EthLastPrice {

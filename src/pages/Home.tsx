@@ -3,15 +3,11 @@ import CardWithTabs from "../components/cardWithNavigation/CardWithTabs";
 import CardExchange from "../components/cardExchange/CardExchange";
 import CardBalance from "../components/cardBalance/CardBalance";
 import Header from "../components/header/Header";
-import { tabType } from "../types/Types";
 import logo from "../assets/img/eth-logo.png";
+import { tabs } from '../mocks/mocks';
 
 export default function Home() {
-  const tabs: tabType[] = [
-    { id: "all", title: "All" },
-    { id: "favs", title: "Favs" },
-    { id: "old", title: "Old" },
-  ];
+
   return (
     <div className="bg-dark text-white" style={{ height: "100vh" }}>
       <Header title="Ethereum Wallet" logo={logo} />

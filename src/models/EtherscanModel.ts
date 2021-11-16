@@ -3,6 +3,7 @@ import { action } from "../types/EtherBalanceTypes";
 export default class EtherscanModel {
   apikey: string;
   module: string = "account";
+  tag: string = "latest"
   action: action;
   address: string;
   startblock: number = 0;
@@ -19,10 +20,11 @@ export default class EtherscanModel {
 
   get getBodyForBalanceAddr() {
     return {
-      apikey: this.apikey,
       module: this.module,
       action: this.action,
       address: this.address,
+      tag: this.tag,
+      apikey: this.apikey,
     };
   }
 

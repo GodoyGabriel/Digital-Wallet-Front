@@ -17,21 +17,21 @@ export default class EtherscanService {
       address,
       action: "balance",
     });
-    const response = await reqResApi.get<EtherscanReponse>("/", {
+    const response = await reqResApi.get<EtherscanReponse>("", {
       params: { ...EthscanModel.getBodyForBalanceAddr },
     });
     return response.data;
   }
 
   static async getEtherBalanceForMultAddrs(
-    addresses: string
+    address: string
   ): Promise<EtherscanReponse> {
     const EthscanModel = new EtherscanModel({
       apikey,
-      addresses,
+      address,
       action: "balancemulti",
     });
-    const response = await reqResApi.get<EtherscanReponse>("/", {
+    const response = await reqResApi.get<EtherscanReponse>("", {
       params: { ...EthscanModel.getBodyForBalanceAddr },
     });
     return response.data;
@@ -45,7 +45,7 @@ export default class EtherscanService {
       address,
       action: "txlist",
     });
-    const response = await reqResApi.get<EtherscanReponse>("/", {
+    const response = await reqResApi.get<EtherscanReponse>("", {
       params: { ...EthscanModel.getBodyForTransactionsForAddress },
     });
     return response.data;
@@ -53,7 +53,7 @@ export default class EtherscanService {
 
   static async getEtherLastPrice(): Promise<EtherscanReponse> {
     const EthscanModel = new EtherscanModel({ apikey, action: "ethprice" });
-    const response = await reqResApi.get<EtherscanReponse>("/", {
+    const response = await reqResApi.get<EtherscanReponse>("", {
       params: { ...EthscanModel.getBodyForEthLastPrice },
     });
     return response.data;
