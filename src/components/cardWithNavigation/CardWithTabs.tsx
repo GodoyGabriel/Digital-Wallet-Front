@@ -4,7 +4,10 @@ import { tabType } from "../../types/Types";
 import Table from "../table/Table";
 import { FcPlus } from "react-icons/fc";
 import Modal from "../modal/Modal";
-import { tableHeader, addressesData } from '../../mocks/mocks';
+import { tableHeader, addressesData } from "../../mocks/mocks";
+import { useSelector, useDispatch } from "react-redux";
+import { addAddress } from "../../redux/walletDataDuck";
+import RootStateInterface from "../../redux/RootStateInterface";
 interface CardWithNavigationProps {
   title: string;
   tabs: tabType[];
@@ -18,12 +21,27 @@ const CardWithNavigation = ({
 }: CardWithNavigationProps) => {
   const [modalActive, setModalActive] = useState(false);
   const [newAddress, setNewAddress] = useState("");
+  const [activeTab, setActiveTab] = useState<any>();
+  const dispatch = useDispatch();
+  const walletData = useSelector(
+    (state: RootStateInterface) => state.walletData
+  );
+
   const getTabs = () => {
-    return tabs.map((tab: tabType, index) => (
+    return tabs.map((tab: tabType, index) => {
+      const showTable = !activeTab ? defaultActiveTab === tab.id : tab.id === activeTab;
+      return(
       <Tab eventKey={tab.id} title={tab.title} key={index}>
-        <Table header={tableHeader} addressesData={addressesData} sort={tab.sort}/>
+        {showTable && (
+          <Table
+            header={tableHeader}
+            addressesData={addressesData}
+            sort={tab.sort}
+          />
+        )}
       </Tab>
-    ));
+      )
+    });
   };
 
   const closeModal = () => {
@@ -35,12 +53,23 @@ const CardWithNavigation = ({
     setNewAddress(e.target.value);
   };
 
+  const addressSubmit = () => {
+    addAddress(newAddress)(dispatch, walletData);
+    closeModal();
+  };
+
   return (
     <>
       <div className="card bg-secondary rounded-0">
         <div className="card-header">{title}</div>
         <div className="card-body">
-          <Tabs defaultActiveKey={defaultActiveTab} id="tabs" className="mb-3">
+          <Tabs
+            id="tabs"
+            className="mb-3"
+            defaultActiveKey={defaultActiveTab}
+            activeKey={activeTab}
+            onSelect={(k) => setActiveTab(k)}
+          >
             {getTabs()}
           </Tabs>
         </div>
@@ -56,7 +85,7 @@ const CardWithNavigation = ({
         title={"Add Address"}
         active={modalActive}
         close={closeModal}
-        onSubmit={closeModal}
+        onSubmit={addressSubmit}
       >
         <input
           type="text"

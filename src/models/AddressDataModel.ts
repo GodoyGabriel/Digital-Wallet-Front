@@ -1,5 +1,4 @@
 import { AddressData } from '../interfaces/interfaces';
-import {useSelector} from "react-redux";
 export default class AddressDataModel {
   address: string;
   price: number;
@@ -14,6 +13,11 @@ export default class AddressDataModel {
     this.fav = data.fav;
     this.firstTransaction = data.firstTransaction;
     this.usdToEur = data.usdToEur || 1;
+  }
+
+  formatEthPrice():void {
+    const eth = 1000000000000000000;
+    this.price = this.price / eth;
   }
 
 }

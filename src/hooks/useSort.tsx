@@ -6,7 +6,7 @@ const useSort = (data: any[], sort: sort) => {
 
   useEffect(() => {
     sortSelector();
-  }, []);
+  }, [data]);
 
   const sortSelector = () => {
     switch (sort) {

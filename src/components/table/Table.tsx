@@ -15,9 +15,9 @@ interface TableProps {
   sort: sort;
 }
 
-const Table = ({ header, addressesData, sort }: TableProps) => {
+const Table = ({ header, sort }: TableProps) => {
   const [fav, setFav] = useState(false);
-  const walletData = useSelector((state: RootState) => state.walletData);
+  const {addressesData} = useSelector((state: RootState) => state.walletData);
   const [modalAcitve, setModalAcive] = useState(false);
   const [addressDelete, setAddressDelete] = useState("");
   const dataSorted = useSort(addressesData, sort);
