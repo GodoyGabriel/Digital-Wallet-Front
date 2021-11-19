@@ -3,8 +3,8 @@ import { tabType } from "../types/Types";
 export const tabs: tabType[] = [
   { id: "all", title: "All", sort: "all" },
   { id: "favs", title: "Favs", sort: "fav" },
-  { id: "old", title: "Old", sort: "old" },
-];
+/*   { id: "old", title: "Old", sort: "old" },
+ */];
 
 export const tableHeader = ["Address","Mount", "Currency", ""];
 
