@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import { tabType } from "../../types/Types";
 import Table from "../table/Table";
@@ -8,11 +8,15 @@ import { tableHeader, addressesData } from "../../mocks/mocks";
 import { useSelector, useDispatch } from "react-redux";
 import { addAddress } from "../../redux/walletDataDuck";
 import RootStateInterface from "../../redux/RootStateInterface";
+import { AddressData } from "../../interfaces/interfaces";
+import Alert from "../alert/Alert";
 interface CardWithNavigationProps {
   title: string;
   tabs: tabType[];
   defaultActiveTab?: string;
 }
+
+const initialAlert = { type: "", message: "" };
 
 const CardWithNavigation = ({
   title,
@@ -22,6 +26,7 @@ const CardWithNavigation = ({
   const [modalActive, setModalActive] = useState(false);
   const [newAddress, setNewAddress] = useState("");
   const [activeTab, setActiveTab] = useState<any>();
+  const [alert, setAlert] = useState(initialAlert);
   const dispatch = useDispatch();
   const walletData = useSelector(
     (state: RootStateInterface) => state.walletData
@@ -29,18 +34,20 @@ const CardWithNavigation = ({
 
   const getTabs = () => {
     return tabs.map((tab: tabType, index) => {
-      const showTable = !activeTab ? defaultActiveTab === tab.id : tab.id === activeTab;
-      return(
-      <Tab eventKey={tab.id} title={tab.title} key={index}>
-        {showTable && (
-          <Table
-            header={tableHeader}
-            addressesData={addressesData}
-            sort={tab.sort}
-          />
-        )}
-      </Tab>
-      )
+      const showTable = !activeTab
+        ? defaultActiveTab === tab.id
+        : tab.id === activeTab;
+      return (
+        <Tab eventKey={tab.id} title={tab.title} key={index}>
+          {showTable && (
+            <Table
+              header={tableHeader}
+              addressesData={addressesData}
+              sort={tab.sort}
+            />
+          )}
+        </Tab>
+      );
     });
   };
 
@@ -54,7 +61,17 @@ const CardWithNavigation = ({
   };
 
   const addressSubmit = () => {
-    addAddress(newAddress)(dispatch, walletData);
+    const addressExist = walletData.addressesData.find(
+      (addressData: AddressData) => {
+        return addressData.address === newAddress;
+      }
+    );
+    if (!addressExist) {
+      setAlert({ type: "success", message: "added address" });
+      addAddress(newAddress)(dispatch, walletData);
+    } else {
+      setAlert({ type: "danger", message: "Address already exists" });
+    }
     closeModal();
   };
 
@@ -96,6 +113,13 @@ const CardWithNavigation = ({
           onChange={inputAddress}
         />
       </Modal>
+      {alert.type !== "" && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClick={() => setAlert(initialAlert)}
+        />
+      )}
     </>
   );
 };

@@ -1,4 +1,3 @@
-import React from "react";
 import CardWithTabs from "../components/cardWithNavigation/CardWithTabs";
 import CardExchange from "../components/cardExchange/CardExchange";
 // import CardBalance from "../components/cardBalance/CardBalance";

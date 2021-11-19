@@ -1,5 +1,3 @@
-import React from 'react';
-
 const CardBalance = () => {
   return (
     <div className="card bg-secondary rounded-0">

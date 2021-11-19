@@ -16,6 +16,7 @@ export default class EtherscanModel {
     this.apikey = parameters.apikey;
     this.action = parameters.action;
     this.address = parameters.address;
+    this.module = parameters.module || this.module;
   }
 
   get getBodyForBalanceAddr() {

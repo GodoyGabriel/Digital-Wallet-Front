@@ -52,7 +52,7 @@ export default class EtherscanService {
   }
 
   static async getEtherLastPrice(): Promise<EtherscanReponse> {
-    const EthscanModel = new EtherscanModel({ apikey, action: "ethprice" });
+    const EthscanModel = new EtherscanModel({ apikey, action: "ethprice", module: "stats" });
     const response = await reqResApi.get<EtherscanReponse>("", {
       params: { ...EthscanModel.getBodyForEthLastPrice },
     });

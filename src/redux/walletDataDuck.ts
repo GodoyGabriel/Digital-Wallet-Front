@@ -1,17 +1,19 @@
 import CurrencyService from "../services/CurrencyService";
 import EtherscanService from "../services/EtherscanService";
-import { formatEthPrice } from "../utils/format";
 import { AccountBalance } from "../interfaces/EtherBalanceInterfaces";
-import { addressesData } from '../mocks/mocks';
+import { addressesData } from "../mocks/mocks";
 import { AddressData } from "../interfaces/interfaces";
 import AddressDataModel from "../models/AddressDataModel";
 
 // Constant
-const SET_USD_TO_EUR = "SET_USD_TO_EUR";
-const LOADING_PAGE = "LOADING_PAGE";
-const CHARG_ADDR_DATA = "CHARG_ADDR_DATA";
-const CURRENCY_CHANGE = "CURRENCY_CHANGE";
-const ADD_ADDRESS = "ADD_ADDRESS";
+export const SET_USD_TO_EUR = "SET_USD_TO_EUR";
+export const LOADING_PAGE = "LOADING_PAGE";
+export const CHARG_ADDR_DATA = "CHARG_ADDR_DATA";
+export const CURRENCY_CHANGE = "CURRENCY_CHANGE";
+export const ADD_ADDRESS = "ADD_ADDRESS";
+export const FAV_CHANGE = "FAV_CHANGE";
+export const REMOVE_ADDRESS = "REMOVE_ADDRESS";
+export const ETHER_USD = "ETHER_USD";
 
 interface Action {
   type:
@@ -19,13 +21,17 @@ interface Action {
     | typeof LOADING_PAGE
     | typeof CHARG_ADDR_DATA
     | typeof CURRENCY_CHANGE
-    | typeof ADD_ADDRESS;
+    | typeof ADD_ADDRESS
+    | typeof FAV_CHANGE
+    | typeof REMOVE_ADDRESS
+    | typeof ETHER_USD;
   payload?: any;
 }
 
 interface State {
   usdToEur: number;
   currency: "USD" | "EUR";
+  priceEthUSD: number;
   loadingPage: boolean;
   addressesData: AddressDataModel[];
 }
@@ -33,12 +39,14 @@ interface State {
 let initialData: State = {
   usdToEur: 1,
   currency: "USD",
+  priceEthUSD: 1,
   loadingPage: false,
   addressesData: [],
 };
 
 // Reducer
-export default function reducer(state :State = initialData, action: Action) {
+export default function reducer(state: State = initialData, action: Action) {
+  let addressesDataAux = [];
   switch (action.type) {
     case SET_USD_TO_EUR:
       return { ...state, usdToEur: action.payload };
@@ -47,10 +55,25 @@ export default function reducer(state :State = initialData, action: Action) {
     case CURRENCY_CHANGE:
       return { ...state, currency: action.payload };
     case ADD_ADDRESS:
-      console.log(`action`, action)
-      const addressesDataAux = state.addressesData;
+      addressesDataAux = state.addressesData;
       addressesDataAux.push(action.payload);
-      return { ...state, addressesData: addressesDataAux};
+      return { ...state, addressesData: addressesDataAux };
+    case FAV_CHANGE:
+      addressesDataAux = utilsForAddressArray(
+        action.payload,
+        state.addressesData,
+        "fav"
+      );
+      return { ...state, addressesData: addressesDataAux };
+    case REMOVE_ADDRESS:
+      addressesDataAux = utilsForAddressArray(
+        action.payload,
+        state.addressesData,
+        "delete"
+      );
+      return { ...state, addressesData: addressesDataAux };
+    case ETHER_USD:
+      return {...state, priceEthUSD: action.payload};
     default:
       return state;
   }
@@ -89,9 +112,12 @@ export const getAddressesData = () => async (dispatch: any) => {
 
 export const addAddress =
   (address: string) => async (dispatch: any, state: State) => {
+    const response = await EtherscanService.getEtherBalanceForSingleAddr(
+      address
+    );
     const newModel: AddressData = {
       address,
-      price: 0,
+      price: response.status === "1" ? Number(response.result) : 0,
       currency: state.currency,
       fav: false,
       firstTransaction: "",
@@ -104,3 +130,26 @@ export const addAddress =
       payload: newAddressData,
     });
   };
+
+// AUX
+const utilsForAddressArray = (
+  addr: string,
+  addresses: AddressDataModel[],
+  type: string
+) => {
+  addresses.forEach((addressData, i) => {
+    if (addr === addressData.address) {
+      switch (type) {
+        case "fav":
+          addressData.changeFav();
+          break;
+        case "delete":
+          addresses.splice(i, 1);
+          break;
+        default:
+          break;
+      }
+    }
+  });
+  return addresses;
+};
