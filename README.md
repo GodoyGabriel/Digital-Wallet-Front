@@ -11,6 +11,7 @@ The first time you have to run this command
 
 ### `npm install`
 
+And then always to raise the project: 
 
 ### `npm start`
 
