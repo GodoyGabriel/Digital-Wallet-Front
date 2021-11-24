@@ -1,4 +1,4 @@
-import CardWithTabs from "../components/CardWithTabs/CardWithTabs";
+import CardWithTabs from "../components/cardWithTabs/CardWithTabs";
 import CardExchange from "../components/cardExchange/CardExchange";
 // import CardBalance from "../components/cardBalance/CardBalance";
 import Header from "../components/header/Header";

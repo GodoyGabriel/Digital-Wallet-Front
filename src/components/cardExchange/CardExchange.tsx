@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import EtherscanService from "../../services/EtherscanService";
 import { useDispatch, useSelector } from "react-redux";
-import { CURRENCY_CHANGE, ETHER_USD } from "../../redux/walletDataDuck";
+import { CURRENCY_CHANGE, ETHER_USD } from "../../redux/ducks/walletDataDuck";
 import { EthLastPrice } from "../../interfaces/EtherBalanceInterfaces";
 import RootState from "../../redux/RootStateInterface";
 import CurrencyService from "../../services/CurrencyService";
 import Alert from "../alert/Alert";
-import { SET_USD_TO_EUR } from "../../redux/walletDataDuck";
+import { SET_USD_TO_EUR } from "../../redux/ducks/walletDataDuck";
 import { formatPriceForCurrency } from "../../utils/format";
 import {AlertInt} from '../../interfaces/interfaces';
+import { currencies } from '../../types/Types';
 
 const initialAlert: AlertInt = { type: "", message: "" };
 
@@ -17,7 +18,7 @@ const CardExchange = () => {
   const { priceEthUSD } = useSelector((state: RootState) => state.walletData);
   const [alert, setAlert] = useState(initialAlert);
   const [usdToEur, setUsdToEur] = useState(1);
-  const [currencySelect, setCurrencySelect] = useState("USD");
+  const [currencySelect, setCurrencySelect] = useState<currencies>("USD");
   const [value, setValue] = useState("");
 
   const getEthPrice = async () => {
@@ -61,7 +62,7 @@ const CardExchange = () => {
     }
   };
 
-  const currencyChange = (currency: string) => {
+  const currencyChange = (currency: currencies) => {
     setCurrencySelect(currency);
     dispatch({ type: CURRENCY_CHANGE, payload: currency });
   };

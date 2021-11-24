@@ -9,7 +9,7 @@ import { AddressData } from "../../interfaces/interfaces";
 import { sort } from "../../types/Types";
 import { useSelector, useDispatch } from "react-redux";
 import RootState from "../../redux/RootStateInterface";
-import { FAV_CHANGE, REMOVE_ADDRESS } from "../../redux/walletDataDuck";
+import { FAV_CHANGE, REMOVE_ADDRESS } from "../../redux/ducks/walletDataDuck";
 
 interface TableProps {
   header: string[];

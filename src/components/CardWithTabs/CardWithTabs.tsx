@@ -6,7 +6,7 @@ import { FcPlus } from "react-icons/fc";
 import Modal from "../modal/Modal";
 import { tableHeader, addressesData } from "../../mocks/mocks";
 import { useSelector, useDispatch } from "react-redux";
-import { addAddress } from "../../redux/walletDataDuck";
+import { addAddress } from "../../redux/ducks/walletDataDuck";
 import RootStateInterface from "../../redux/RootStateInterface";
 import { AddressData, AlertInt } from '../../interfaces/interfaces';
 import Alert from "../alert/Alert";

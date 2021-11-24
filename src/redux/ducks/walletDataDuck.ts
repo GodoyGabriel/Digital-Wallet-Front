@@ -1,9 +1,9 @@
-import CurrencyService from "../services/CurrencyService";
-import EtherscanService from "../services/EtherscanService";
-import { AccountBalance } from "../interfaces/EtherBalanceInterfaces";
-import { addressesData } from "../mocks/mocks";
-import { AddressData } from "../interfaces/interfaces";
-import AddressDataModel from "../models/AddressDataModel";
+import CurrencyService from "../../services/CurrencyService";
+import EtherscanService from "../../services/EtherscanService";
+import { AccountBalance } from "../../interfaces/EtherBalanceInterfaces";
+import { addressesData } from "../../mocks/mocks";
+import { AddressData } from "../../interfaces/interfaces";
+import AddressDataModel from "../../models/AddressDataModel";
 
 // Constant
 export const SET_USD_TO_EUR = "SET_USD_TO_EUR";
