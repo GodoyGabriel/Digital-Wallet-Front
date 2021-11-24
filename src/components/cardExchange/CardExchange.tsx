@@ -8,8 +8,9 @@ import CurrencyService from "../../services/CurrencyService";
 import Alert from "../alert/Alert";
 import { SET_USD_TO_EUR } from "../../redux/walletDataDuck";
 import { formatPriceForCurrency } from "../../utils/format";
+import {AlertInt} from '../../interfaces/interfaces';
 
-const initialAlert = { type: "", message: "" };
+const initialAlert: AlertInt = { type: "", message: "" };
 
 const CardExchange = () => {
   const dispatch = useDispatch();

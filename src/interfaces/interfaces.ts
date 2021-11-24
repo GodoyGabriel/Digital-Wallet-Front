@@ -1,3 +1,4 @@
+import { alertTypes } from '../types/Types';
 export interface AddressData {
   address: string;
   price: number;
@@ -12,4 +13,9 @@ export interface FormatPriceForCurrency{
   priceEthUSD: number;
   currencySelect: string;
   usdToEur: number;
+}
+
+export interface AlertInt {
+  type: alertTypes,
+  message: string;
 }

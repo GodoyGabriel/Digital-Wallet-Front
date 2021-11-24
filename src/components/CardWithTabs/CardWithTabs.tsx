@@ -8,7 +8,7 @@ import { tableHeader, addressesData } from "../../mocks/mocks";
 import { useSelector, useDispatch } from "react-redux";
 import { addAddress } from "../../redux/walletDataDuck";
 import RootStateInterface from "../../redux/RootStateInterface";
-import { AddressData } from "../../interfaces/interfaces";
+import { AddressData, AlertInt } from '../../interfaces/interfaces';
 import Alert from "../alert/Alert";
 interface CardWithNavigationProps {
   title: string;
@@ -16,7 +16,7 @@ interface CardWithNavigationProps {
   defaultActiveTab?: string;
 }
 
-const initialAlert = { type: "", message: "" };
+const initialAlert: AlertInt = { type: "", message: "" };
 
 const CardWithNavigation = ({
   title,

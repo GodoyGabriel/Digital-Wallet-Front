@@ -1,33 +1,22 @@
+import { alertType } from "../../utils";
+import { alertTypes } from "../../types/Types";
+
 interface AlertProps {
-  type: string;
+  type: alertTypes;
   message: string;
   onClick: () => void;
 }
 
 const Alert = ({ type, message, onClick }: AlertProps) => {
-  const alertType = () => {
-    switch (type) {
-      case "danger":
-        return "alert-danger";
-      case "success":
-        return "alert-success";
-      case "warning":
-        return "alert-warning";
-      default:
-        return "alert-primary";
-    }
-  };
-
   return (
-    <div className={`alert alert-dismissible ${alertType()}`}>
+    <div className={`alert alert-dismissible ${alertType(type)}`}>
       <button
         type="button"
         className="btn-close"
         data-bs-dismiss="alert"
         onClick={onClick}
-      ></button>
-      {/*<strong>Oh snap!</strong>*/}
-      {message}
+      />
+        {message}
     </div>
   );
 };

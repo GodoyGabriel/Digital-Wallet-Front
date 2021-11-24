@@ -5,3 +5,5 @@ export type tabType = {
 }
 
 export type sort = "all" | "fav" | "old";
+
+export type alertTypes = "danger" | "warning" | "success" | "primary" | "";
