@@ -31,6 +31,7 @@ const Table = ({ header, sort }: TableProps) => {
     if (loading && dataSorted.length) {
       setLoading(false);
     }
+    // eslint-disable-next-line
   }, [dataSorted]);
 
   const modalClose = () => {
@@ -56,9 +57,8 @@ const Table = ({ header, sort }: TableProps) => {
   const getPriceForCurrency = (addressData: AddressData) => {
     if (currency === "USD") {
       return addressData.price;
-    } else {
-      return addressData.price * usdToEur;
     }
+    return addressData.price * usdToEur;
   };
 
   const getBodyRows = () => {
@@ -66,7 +66,7 @@ const Table = ({ header, sort }: TableProps) => {
       const addressData = new AddressDataModel(data);
       return (
         <tr className="table-primary" key={index}>
-          <td scope="row" style={{ maxWidth: "280px" }}>
+          <td style={{ maxWidth: "280px" }}>
             {addressData.address}
           </td>
           <td>${getPriceForCurrency(addressData)}</td>
@@ -106,8 +106,8 @@ const Table = ({ header, sort }: TableProps) => {
         <table className="table striped table-hover">
           <thead className="table-dark">
             <tr>
-              {header.map((item: string) => (
-                <th scope="col">{item}</th>
+              {header.map((item: string, i: number) => (
+                <th scope="col" key={i}>{item}</th>
               ))}
             </tr>
           </thead>

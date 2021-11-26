@@ -6,11 +6,12 @@ const useSort = (data: any[], sort: sort) => {
 
   useEffect(() => {
     sortSelector();
+    // eslint-disable-next-line
   }, [data]);
 
   const sortSelector = () => {
-    switch (sort) {
-      case "all":
+    const sortType = {
+      all: () => {
         const sorted = data.sort((item: any) => {
           if (!item.fav) {
             return 1;
@@ -19,24 +20,23 @@ const useSort = (data: any[], sort: sort) => {
           }
         });
         setSortedData(sorted);
-        break;
-      case "fav":
+      },
+      fav: () => {
         setSortedData(
           data.filter((item: any) => {
             return item.fav;
           })
         );
-        break;
-      case "old":
+      },
+      old: () => {
         setSortedData(
           data.filter((item: any) => {
             return item.fav;
           })
         );
-        break;
-      default:
-        break;
-    }
+      },
+    };
+    sortType[sort]();
   };
 
   return sortedData;

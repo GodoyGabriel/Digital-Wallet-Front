@@ -1,71 +1,21 @@
-import { useEffect, useState } from "react";
-import EtherscanService from "../../services/EtherscanService";
-import { useDispatch, useSelector } from "react-redux";
-import { CURRENCY_CHANGE, ETHER_USD } from "../../redux/ducks/walletDataDuck";
-import { EthLastPrice } from "../../interfaces/EtherBalanceInterfaces";
-import RootState from "../../redux/RootStateInterface";
-import CurrencyService from "../../services/CurrencyService";
 import Alert from "../alert/Alert";
-import { SET_USD_TO_EUR } from "../../redux/ducks/walletDataDuck";
-import { formatPriceForCurrency } from "../../utils/format";
-import {AlertInt} from '../../interfaces/interfaces';
-import { currencies } from '../../types/Types';
+import { AlertInt } from "../../interfaces/interfaces";
+import Button from "react-bootstrap/Button";
+
+import useExchange from "../../hooks/useExchange";
 
 const initialAlert: AlertInt = { type: "", message: "" };
 
 const CardExchange = () => {
-  const dispatch = useDispatch();
-  const { priceEthUSD } = useSelector((state: RootState) => state.walletData);
-  const [alert, setAlert] = useState(initialAlert);
-  const [usdToEur, setUsdToEur] = useState(1);
-  const [currencySelect, setCurrencySelect] = useState<currencies>("USD");
-  const [value, setValue] = useState("");
-
-  const getEthPrice = async () => {
-    const ethPrice = await EtherscanService.getEtherLastPrice();
-    const result: EthLastPrice = ethPrice.result as EthLastPrice;
-    const price = ethPrice.status === "1" ? Number(result.ethusd) : 1;
-    dispatch({ type: ETHER_USD, payload: price });
-  };
-
-  useEffect(() => {
-    getEthPrice();
-    getPriceUSDToEUR();
-  }, []);
-
-  const onchange = (e: string) => {
-    setValue(e);
-  };
-
-  const getPriceUSDToEUR = async () => {
-    const response = await CurrencyService.getPriceUSDToEUR("USD_EUR");
-    dispatch({ type: SET_USD_TO_EUR, payload: response.USD_EUR });
-    setUsdToEur(response.USD_EUR);
-  };
-
-  const getEthValueCurrency = () => {
-    if (Number(value)) {
-      if (alert.type !== "") {
-        setAlert(initialAlert);
-      }
-      return formatPriceForCurrency({
-        value,
-        priceEthUSD,
-        currencySelect,
-        usdToEur,
-      });
-    } else {
-      if (alert.type === "" && value !== "") {
-        setAlert({ type: "danger", message: "Tt is not a number" });
-      }
-      return "0";
-    }
-  };
-
-  const currencyChange = (currency: currencies) => {
-    setCurrencySelect(currency);
-    dispatch({ type: CURRENCY_CHANGE, payload: currency });
-  };
+  const {
+    value,
+    onchange,
+    buttonActive,
+    currencyChange,
+    amountFormated,
+    alert,
+    setAlert,
+  } = useExchange();
 
   return (
     <>
@@ -82,30 +32,29 @@ const CardExchange = () => {
           />
 
           <div className="btn-group" role="group" style={{ display: "flex" }}>
-            <button
+            <Button
               type="button"
-              className={`btn btn-secondary  ${
-                currencySelect === "USD" ? "active" : ""
-              }`}
+              className="btn btn-secondary"
+              active={buttonActive("USD")}
               onClick={() => currencyChange("USD")}
             >
               USD
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               className="btn btn-secondary"
+              active={buttonActive("EUR")}
               onClick={() => currencyChange("EUR")}
             >
               EUR
-            </button>
+            </Button>
           </div>
           <input
             className="form-control"
             id="readOnlyInput"
             type="text"
-            placeholder="Readonly input here..."
             disabled
-            value={`ETH ${getEthValueCurrency()}`}
+            value={`ETH ${amountFormated}`}
           />
         </div>
       </div>

@@ -4,6 +4,7 @@ import { AccountBalance } from "../../interfaces/EtherBalanceInterfaces";
 import { addressesData } from "../../mocks/mocks";
 import { AddressData } from "../../interfaces/interfaces";
 import AddressDataModel from "../../models/AddressDataModel";
+// import DigitalWalletService from '../../services/DigitalWalletService';
 
 // Constant
 export const SET_USD_TO_EUR = "SET_USD_TO_EUR";
@@ -73,7 +74,7 @@ export default function reducer(state: State = initialData, action: Action) {
       );
       return { ...state, addressesData: addressesDataAux };
     case ETHER_USD:
-      return {...state, priceEthUSD: action.payload};
+      return { ...state, priceEthUSD: action.payload };
     default:
       return state;
   }
@@ -90,6 +91,7 @@ export const getPriceUSDToEUR = () => async (dispatch: any) => {
 };
 
 export const getAddressesData = () => async (dispatch: any) => {
+  // const addressesResp = await DigitalWalletService.getAddresses();
   const addresses =
     "0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a,0x63a9975ba31b0b9626b34300f7f627147df1f526,0x198ef1ec325a96cc354c7266a038be8b5c558f67";
   const response = await EtherscanService.getEtherBalanceForMultAddrs(

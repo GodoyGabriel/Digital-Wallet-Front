@@ -1,15 +1,24 @@
 import axios from "axios";
 
 const reqResApi = axios.create({
-  baseURL: "https://free.currconv.com/api/v7/convert",
+  baseURL: process.env.REACT_APP_ETH_URL,
 });
-const api_key = "cad1e7c091e3488ee924";
+const api_key = process.env.REACT_APP_ETH_API_KEY;
 
 export default class CurrencyService {
-  static async getPriceUSDToEUR (currencies: string){
-    const response = await reqResApi.get("", {
-      params: { q: currencies, compact: "ultra", apiKey: api_key},
-    });
+  static async getPriceUSDToEUR(currencies: string) {
+    let response = { data: { USD_EUR: 1 } };
+    await reqResApi
+      .get("", {
+        params: { q: currencies, compact: "ultra", apiKey: api_key },
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        // Previously the api stopped working
+        response.data.USD_EUR = 0.89;
+      });
     return response.data;
   }
 }
