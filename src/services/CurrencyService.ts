@@ -13,7 +13,7 @@ export default class CurrencyService {
         params: { q: currencies, compact: "ultra", apiKey: api_key },
       })
       .then((res) => {
-        return res.data;
+        response.data = res.data;
       })
       .catch((err) => {
         // Previously the api stopped working
