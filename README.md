@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Clarifications
+
+The .env file is uploaded in order to lift the application without problems
+
 ## Available Scripts
 
 In the project directory, you can run:

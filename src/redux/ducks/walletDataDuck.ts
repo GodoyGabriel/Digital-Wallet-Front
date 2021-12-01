@@ -94,11 +94,11 @@ export const getAddressesData = () => async (dispatch: any) => {
   // const addressesResp = await DigitalWalletService.getAddresses();
   const addresses =
     "0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a,0x63a9975ba31b0b9626b34300f7f627147df1f526,0x198ef1ec325a96cc354c7266a038be8b5c558f67";
-  const response = await EtherscanService.getEtherBalanceForMultAddrs(
+  const { result } = await EtherscanService.getEtherBalanceForMultAddrs(
     addresses
   );
   const addressesDataFromBack = addressesData;
-  const resultEthscan: AccountBalance[] = response.result as AccountBalance[];
+  const resultEthscan: AccountBalance[] = result as AccountBalance[];
   let addressesDataFormated: AddressDataModel[] = [];
   addressesDataFromBack.forEach((item: AddressData, i: number) => {
     item.price = resultEthscan[i].balance;
@@ -114,12 +114,11 @@ export const getAddressesData = () => async (dispatch: any) => {
 
 export const addAddress =
   (address: string) => async (dispatch: any, state: State) => {
-    const response = await EtherscanService.getEtherBalanceForSingleAddr(
-      address
-    );
+    const { status, result } =
+      await EtherscanService.getEtherBalanceForSingleAddr(address);
     const newModel: AddressData = {
       address,
-      price: response.status === "1" ? Number(response.result) : 0,
+      price: status === "1" ? Number(result) : 0,
       currency: state.currency,
       fav: false,
       firstTransaction: "",
